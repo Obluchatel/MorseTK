@@ -1,7 +1,7 @@
 import winsound
 from tkinter import *
 import time
-
+from tkinter import ttk
 
 def morse(message):
     global output
@@ -32,15 +32,26 @@ def sound(message):
         elif i == ' ':
             pass
 
-
+def step():
+    my_progress['value'] += 20
 
 root = Tk()
-
+root.title("MorseTk")
+root.geometry("800x600")
 e = Entry(root, width=50, borderwidth=5)
 e.pack()
 e.get()
 e.insert (0, "Enter your message: ")
 
+
+
+
+my_progress = ttk.Progressbar(root, orient=HORIZONTAL,
+                              length=300, mode="determinate")
+my_progress.pack(pady=20)
+
+progress_button = Button (root, text="Progress", command=step)
+progress_button.pack(pady=20)
 
 
 def myClick():
