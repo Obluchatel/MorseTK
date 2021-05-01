@@ -21,12 +21,35 @@ def morse(message):
         output = ''.join(a)
     return output
 
-def sound(message):
-    length = len(message)
-    print(length)
-    print(message)
+root = Tk()
+root.title("MorseTk")
+root.geometry("380x180")
+e = Entry(root, width=50, borderwidth=5)
+e.pack()
+e.get()
+e.insert (0, "Enter your message: ")
+
+o = Entry (root, width=50, borderwidth=5)
+o.pack()
+o.insert (0, "Translated message: ")
+
+
+my_progress = ttk.Progressbar(root, orient=HORIZONTAL,
+                              length=300, mode="determinate")
+my_progress.pack(pady=20)
+
+
+def myClick():
     my_progress['value'] = 0
-    for i in message:
+    translated = morse(e.get())
+    o.delete(0, END)
+    o.insert(0, translated)
+
+
+def play_coded_message():
+    length = len(output)
+    my_progress['value'] = 0
+    for i in output:
         if i == '.':
             my_progress['value'] += 100 / length
             root.update_idletasks()
@@ -41,49 +64,12 @@ def sound(message):
             my_progress['value'] += 100 / length
             root.update_idletasks()
             pass
-
-# def step():
-#     my_progress['value'] += 20
-
-root = Tk()
-root.title("MorseTk")
-root.geometry("480x240")
-e = Entry(root, width=50, borderwidth=5)
-e.pack()
-e.get()
-e.insert (0, "Enter your message: ")
-
-o = Entry (root, width=50)
-o.pack()
-o.insert (0, "Translated message: ")
-
-
-my_progress = ttk.Progressbar(root, orient=HORIZONTAL,
-                              length=300, mode="determinate")
-my_progress.pack(pady=20)
-
-# progress_button = Button (root, text="Progress", command=step)
-# progress_button.pack(pady=20)
-
-def myClick():
-    my_progress['value'] = 0
-    translated = morse(e.get())
-    myLabel = Label(root, text=translated)
-    o.delete(0, END)
-    o.insert(0, translated)
-    myLabel.pack()
-
-
-def play_coded_message():
-    sound(output)
     root.update_idletasks()
 
-myButton = Button(root, text="Translate it to morse!", command=myClick)
+myButton = Button(root, text="Translate it to Morse!", command=myClick)
 myButton.pack()
-
 
 playsound = Button(root, text="Play it", command=play_coded_message)
 playsound.pack()
-
 
 root.mainloop()
