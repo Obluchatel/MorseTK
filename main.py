@@ -22,49 +22,61 @@ def morse(message):
     return output
 
 def sound(message):
+    length = len(message)
+    print(length)
+    print(message)
+    my_progress['value'] = 0
     for i in message:
         if i == '.':
+            my_progress['value'] += 100 / length
+            root.update_idletasks()
             winsound.Beep(1000, 100)  # Beep at 1000 Hz for 100 ms
             time.sleep(0.1)
         elif i == '-':
+            my_progress['value'] += 100 / length
+            root.update_idletasks()
             winsound.Beep(1000, 600)  # Beep at 1000 Hz for 100 ms
             time.sleep(0.1)
         elif i == ' ':
+            my_progress['value'] += 100 / length
+            root.update_idletasks()
             pass
 
-def step():
-    my_progress['value'] += 20
+# def step():
+#     my_progress['value'] += 20
 
 root = Tk()
 root.title("MorseTk")
-root.geometry("800x600")
+root.geometry("480x240")
 e = Entry(root, width=50, borderwidth=5)
 e.pack()
 e.get()
 e.insert (0, "Enter your message: ")
 
-
+o = Entry (root, width=50)
+o.pack()
+o.insert (0, "Translated message: ")
 
 
 my_progress = ttk.Progressbar(root, orient=HORIZONTAL,
                               length=300, mode="determinate")
 my_progress.pack(pady=20)
 
-progress_button = Button (root, text="Progress", command=step)
-progress_button.pack(pady=20)
-
+# progress_button = Button (root, text="Progress", command=step)
+# progress_button.pack(pady=20)
 
 def myClick():
+    my_progress['value'] = 0
     translated = morse(e.get())
     myLabel = Label(root, text=translated)
+    o.delete(0, END)
+    o.insert(0, translated)
     myLabel.pack()
 
 
 def play_coded_message():
     sound(output)
-
-
-
+    root.update_idletasks()
 
 myButton = Button(root, text="Translate it to morse!", command=myClick)
 myButton.pack()
@@ -72,8 +84,6 @@ myButton.pack()
 
 playsound = Button(root, text="Play it", command=play_coded_message)
 playsound.pack()
-
-
 
 
 root.mainloop()
