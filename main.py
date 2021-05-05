@@ -3,6 +3,7 @@ from tkinter import *
 import time
 from tkinter import ttk
 
+
 def morse(message):
     global output
     morze_alphabet = (
@@ -21,29 +22,40 @@ def morse(message):
         output = ''.join(a)
     return output
 
+
 root = Tk()
 root.title("MorseTk")
 root.geometry("380x180")
-e = Entry(root, width=50, borderwidth=5)
+
+upper_frame = Frame(root)
+upper_frame.pack()
+
+bottom_frame = Frame(root)
+bottom_frame.pack()
+
+e = Entry(upper_frame, width=50, borderwidth=5)
 e.pack()
 e.get()
-e.insert (0, "Enter your message: ")
+e.insert(0, "Enter your message: ")
 
-o = Entry (root, width=50, borderwidth=5)
+o = Entry(upper_frame, width=50, borderwidth=5)
 o.pack()
-o.insert (0, "Translated message: ")
+o.insert(0, "Translated message: ")
 
-
-my_progress = ttk.Progressbar(root, orient=HORIZONTAL,
+my_progress = ttk.Progressbar(upper_frame, orient=HORIZONTAL,
                               length=300, mode="determinate")
 my_progress.pack(pady=20)
 
 
-def myClick():
+def my_click():
     my_progress['value'] = 0
     translated = morse(e.get())
     o.delete(0, END)
     o.insert(0, translated)
+
+
+def quit_exit():
+    root.destroy()
 
 
 def play_coded_message():
@@ -66,10 +78,14 @@ def play_coded_message():
             pass
     root.update_idletasks()
 
-myButton = Button(root, text="Translate it to Morse!", command=myClick)
-myButton.pack()
 
-playsound = Button(root, text="Play it", command=play_coded_message)
-playsound.pack()
+myButton = Button(bottom_frame, text="Translate it to Morse!", command=my_click)
+myButton.grid(row=0, column=0, padx=15)
+
+playsound = Button(bottom_frame, text="Play it", command=play_coded_message)
+playsound.grid(row=0, column=1, padx=15)
+
+quit_button = Button(bottom_frame, text="Quit", command=quit_exit)
+quit_button.grid(row=0, column=2, padx=15)
 
 root.mainloop()
